@@ -1,6 +1,6 @@
 package com.cc.framework.springboot.web.advices;
 
-import com.cc.common.ResultBuilder;
+import com.cc.framework.common.model.ResultBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,27 +25,27 @@ public class GloableExceptionAdvice {
     @ResponseStatus(HttpStatus.OK)
     public ResultBuilder.Result exception500(Exception e) {
         logger.error("ServerError:", e);
-        return ResultBuilder.getResultException(ResultBuilder.BaseResult.ServerError);
+        return ResultBuilder.getResultException(ResultBuilder.ResultException.ServerError);
     }
     @ExceptionHandler(value = {MissingServletRequestParameterException.class, IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.OK)
     public ResultBuilder.Result exception400(MissingServletRequestParameterException e) {
-        return ResultBuilder.getResultException(ResultBuilder.BaseResult.BadRequest);
+        return ResultBuilder.getResultException(ResultBuilder.ResultException.BadRequest);
     }
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.OK)
     public ResultBuilder.Result exception404(NoHandlerFoundException e) {
-        return ResultBuilder.getResultException(ResultBuilder.BaseResult.NotFound);
+        return ResultBuilder.getResultException(ResultBuilder.ResultException.NotFound);
     }
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.OK)
     public ResultBuilder.Result exception405(MethodArgumentTypeMismatchException e) {
-        return ResultBuilder.getResultException(ResultBuilder.BaseResult.MethodNotAllowed);
+        return ResultBuilder.getResultException(ResultBuilder.ResultException.MethodNotAllowed);
     }
-    @ExceptionHandler(ResultBuilder.CommonResultException.class)
-    @ResponseStatus(HttpStatus.OK)
-    public ResultBuilder.Result businessException(ResultBuilder.CommonResultException e) {
-        return ResultBuilder.getBaseBusinessException(e.getMsg());
-    }
+//    @ExceptionHandler(ResultBuilder.BusinessException.class)
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResultBuilder.Result businessException(ResultBuilder.CommonResultException e) {
+//        return ResultBuilder.getBaseBusinessException(e.getMsg());
+//    }
 
 }

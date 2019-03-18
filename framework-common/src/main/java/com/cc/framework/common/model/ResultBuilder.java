@@ -9,28 +9,62 @@ import java.util.Date;
  **/
 public class ResultBuilder {
 
-    public static class Result<T> {
+    public interface CustomizedException {
+        int getResultCode();
+        String getResultMsg();
+    }
 
-        private int code;
-        private String msg;
-        private T data;
-        private String traceId;
-        private Date time;
 
-        public int getCode() {
-            return code;
+    public enum ResultException {
+        Success(0, "Success"),
+        ServerError(10500, "Server Error"),
+        BadRequest(10400, "Bad Request"),
+        MethodNotAllowed(10405, "Method Not Allowed"),
+        NotFound(10404, "Uri Not Find")
+        ;
+
+        private final int errorCode;
+        private final String msg;
+
+        ResultException(int errorCode, String msg) {
+            this.errorCode = errorCode;
+            this.msg = msg;
         }
 
-        public void setCode(int code) {
-            this.code = code;
+        public int getErrorCode() {
+            return errorCode;
         }
 
         public String getMsg() {
             return msg;
         }
+    }
 
-        public void setMsg(String msg) {
+    public static class Result<T> {
+
+        private final int code;
+        private final String msg;
+        private T data;
+        private String traceId;
+        private Date time;
+
+        private Result(int code, String msg) {
+            this.code = code;
             this.msg = msg;
+        }
+
+        private Result(int code, String msg, T data) {
+            this.code = code;
+            this.msg = msg;
+            this.data = data;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getMsg() {
+            return msg;
         }
 
         public T getData() {
@@ -58,9 +92,25 @@ public class ResultBuilder {
         }
     }
 
-
+    /**
+     * 获取成功的返回
+     * @return
+     */
     public static Result getSuccess() {
-        Result result = new Result();
-        return result;
+        return new Result(ResultException.Success.errorCode, ResultException.Success.msg);
+    }
+
+    /**
+     * 获取成功数据返回
+     * @param data  数据
+     * @param <T>   返回数据类型
+     * @return
+     */
+    public static <T> Result<T> getSuccess(T data) {
+        return new Result(ResultException.Success.errorCode, ResultException.Success.msg, data);
+    }
+
+    public static Result getResultException(ResultException resultException) {
+        return new Result(resultException.errorCode, resultException.msg);
     }
 }
