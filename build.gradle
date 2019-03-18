@@ -1,0 +1,33 @@
+group 'com.cc'
+version '1.0-SNAPSHOT'
+
+subprojects {
+
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        mavenLocal()
+        maven {url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        mavenCentral()
+    }
+
+    ext {
+        ccComponentVersion = '1.0-SNAPSHOT'
+        ccProjectFrameworkVersion = '1.0-SNAPSHOT'
+        springVersion = '5.1.2.RELEASE'
+        springbootVersion = '2.1.0.RELEASE'
+        servletApiVersion = '3.1.0'
+        fastJsonVersion = '1.2.56'
+    }
+
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+    configurations {
+        all*.exclude module: 'commons-logging'
+    }
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+}
