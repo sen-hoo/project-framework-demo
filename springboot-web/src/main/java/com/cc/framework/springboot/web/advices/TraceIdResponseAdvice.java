@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import java.util.Date;
 
 /**
- * @Description 拦截controller设置返回traceId
+ * @Description 拦截controller设置返回traceId 和 time
  * @Author sen.hu
  * @Date 2018/11/29 18:33
  **/
