@@ -8,19 +8,44 @@ import java.util.Date;
  * @date 2019/3/18 16:42
  **/
 public class ResultBuilder {
-
-    public interface CustomizedException {
+    /**
+     * 自定义返回异常
+     */
+    public interface CustomizedResultException {
         int getResultCode();
         String getResultMsg();
     }
 
+    /**
+     * 业务异常
+     */
+    public static class BusinessException extends RuntimeException {
+        private String msg;
 
+        public BusinessException(String msg) {
+            super(msg);
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+    }
+
+    /**
+     * 返回枚举
+     */
     public enum ResultException {
         Success(0, "Success"),
         ServerError(10500, "Server Error"),
         BadRequest(10400, "Bad Request"),
         MethodNotAllowed(10405, "Method Not Allowed"),
-        NotFound(10404, "Uri Not Find")
+        NotFound(10404, "Uri Not Find"),
+        CommonException(10900, "业务异常")
+
         ;
 
         private final int errorCode;
@@ -40,6 +65,10 @@ public class ResultBuilder {
         }
     }
 
+    /**
+     * 调用返回
+     * @param <T>
+     */
     public static class Result<T> {
 
         private final int code;
@@ -110,7 +139,30 @@ public class ResultBuilder {
         return new Result(ResultException.Success.errorCode, ResultException.Success.msg, data);
     }
 
+    /**
+     * 获取异常返回
+     * @param resultException
+     * @return
+     */
     public static Result getResultException(ResultException resultException) {
         return new Result(resultException.errorCode, resultException.msg);
+    }
+
+    /**
+     * 生成自定义返回结果
+     * @param customizedResultException
+     * @return
+     */
+    public static Result getResultException(CustomizedResultException customizedResultException) {
+        return new Result(customizedResultException.getResultCode(), customizedResultException.getResultMsg());
+    }
+
+    /**
+     * 获取普通异常返回
+     * @param msg   异常信息
+     * @return
+     */
+    public static Result getResultException(String msg) {
+        return new Result(ResultException.CommonException.errorCode, msg);
     }
 }

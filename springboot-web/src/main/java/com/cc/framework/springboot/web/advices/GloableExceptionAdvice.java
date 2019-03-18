@@ -42,10 +42,10 @@ public class GloableExceptionAdvice {
     public ResultBuilder.Result exception405(MethodArgumentTypeMismatchException e) {
         return ResultBuilder.getResultException(ResultBuilder.ResultException.MethodNotAllowed);
     }
-//    @ExceptionHandler(ResultBuilder.BusinessException.class)
-//    @ResponseStatus(HttpStatus.OK)
-//    public ResultBuilder.Result businessException(ResultBuilder.CommonResultException e) {
-//        return ResultBuilder.getBaseBusinessException(e.getMsg());
-//    }
+    @ExceptionHandler(ResultBuilder.BusinessException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ResultBuilder.Result businessException(ResultBuilder.BusinessException e) {
+        return ResultBuilder.getResultException(e.getMsg());
+    }
 
 }
