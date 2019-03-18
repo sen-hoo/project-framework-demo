@@ -1,6 +1,7 @@
 package com.cc.framework.springboot.web.controllers;
 
 import com.cc.framework.common.model.ResultBuilder;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
 
+    @RequestMapping(value = "test")
     public ResultBuilder.Result test() {
-        return null;
+        return ResultBuilder.getSuccess();
     }
 
 }
