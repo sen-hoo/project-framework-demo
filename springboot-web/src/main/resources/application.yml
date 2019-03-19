@@ -1,5 +1,8 @@
 spring:
   profiles:
     active: dev
+  messages:
+    basename: messages
+    cache-duration: 3600
 server:
-  port: 8099
+  port: 8090

@@ -118,4 +118,6 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addMapping("/**");
     }
 
+
+
 }

@@ -20,18 +20,41 @@ public class ResultBuilder {
      * 业务异常
      */
     public static class BusinessException extends RuntimeException {
-        private String msg;
+        private final String messagesKey;
+        private Object[] args;
+        private String defaultMessage;
 
-        public BusinessException(String msg) {
-            super(msg);
+        public BusinessException(String messagesKey, Object[] args) {
+            super(messagesKey);
+            this.messagesKey = messagesKey;
+            this.args = args;
         }
 
-        public String getMsg() {
-            return msg;
+        public BusinessException(String messagesKey, Object[] args, String defaultMessage) {
+            super(messagesKey);
+            this.messagesKey = messagesKey;
+            this.args = args;
+            this.defaultMessage = defaultMessage;
         }
 
-        public void setMsg(String msg) {
-            this.msg = msg;
+        public String getMessagesKey() {
+            return messagesKey;
+        }
+
+        public Object[] getArgs() {
+            return args;
+        }
+
+        public void setArgs(Object[] args) {
+            this.args = args;
+        }
+
+        public String getDefaultMessage() {
+            return defaultMessage;
+        }
+
+        public void setDefaultMessage(String defaultMessage) {
+            this.defaultMessage = defaultMessage;
         }
     }
 

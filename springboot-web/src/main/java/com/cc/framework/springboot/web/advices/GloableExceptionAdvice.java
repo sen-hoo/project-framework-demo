@@ -3,6 +3,9 @@ package com.cc.framework.springboot.web.advices;
 import com.cc.framework.common.model.ResultBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import java.util.Locale;
 
 /**
  * @Description web全局异常处理
@@ -20,6 +25,10 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class GloableExceptionAdvice {
 
     private Logger logger = LoggerFactory.getLogger(GloableExceptionAdvice.class);
+
+    @Autowired
+    private MessageSource messageSource;
+
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
@@ -45,7 +54,9 @@ public class GloableExceptionAdvice {
     @ExceptionHandler(ResultBuilder.BusinessException.class)
     @ResponseStatus(HttpStatus.OK)
     public ResultBuilder.Result businessException(ResultBuilder.BusinessException e) {
-        return ResultBuilder.getResultException(e.getMsg());
+        Locale locale = LocaleContextHolder.getLocale();
+        String msg = messageSource.getMessage(e.getMessagesKey(), null, locale);
+        return ResultBuilder.getResultException(msg);
     }
 
 }
