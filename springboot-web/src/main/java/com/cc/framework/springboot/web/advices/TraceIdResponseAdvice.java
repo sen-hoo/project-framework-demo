@@ -20,8 +20,7 @@ import java.util.Date;
  * @Date 2018/11/29 18:33
  **/
 @RestControllerAdvice(basePackages = {"com.cc.framework.springboot.web.advices", "com.cc.framework.springboot.web.controllers"})
-public class TraceIdResponseAdvice implements ResponseBodyAdvice<ResultBuilder.Result> {
-
+public class TraceIdResponseAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         return true;
@@ -29,10 +28,12 @@ public class TraceIdResponseAdvice implements ResponseBodyAdvice<ResultBuilder.R
 
     @Nullable
     @Override
-    public ResultBuilder.Result beforeBodyWrite(@Nullable ResultBuilder.Result body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        if (body != null) {
-            body.setTraceId(MDC.get(Constants.TRACE_ID_LOGFILE_NAME));
-            body.setTime(new Date());
+    public Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+        if (body != null && body instanceof ResultBuilder.Result) {
+            ResultBuilder.Result result = (ResultBuilder.Result) body;
+            result.setTraceId(MDC.get(Constants.TRACE_ID_LOGFILE_NAME));
+            result.setTime(new Date());
+            return result;
         }
         return body;
     }

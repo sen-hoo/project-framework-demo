@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -68,6 +69,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         mediaTypeList.add(MediaType.APPLICATION_JSON);
         converter.setSupportedMediaTypes(mediaTypeList);
         converters.add(converter);
+        //string 转换器
+        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
+        converters.add(stringHttpMessageConverter);
     }
 
     /**
