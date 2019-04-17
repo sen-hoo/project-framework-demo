@@ -62,6 +62,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 // 避免循环引用
                 SerializerFeature.DisableCircularReferenceDetect
         );
+        //是否设置content-length,  spring默认使用 chunked 分块传输
+        config.setWriteContentLength(false);
         converter.setFastJsonConfig(config);
         converter.setDefaultCharset(Charset.forName("UTF-8"));
         List<MediaType> mediaTypeList = new ArrayList<>();
